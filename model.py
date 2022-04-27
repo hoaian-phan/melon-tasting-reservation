@@ -27,7 +27,7 @@ class Appointment(db.Model):
 
     __tablename__ = "appointments"
 
-    appointment_id = db.Column(db.Integers, primary_key=True, autoincrement=True)
+    appointment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     date = db.Column(db.Date, nullable=False)
     start = db.Column(db.Time, nullable=False)
     end = db.Column(db.Time, nullable=False)
@@ -50,7 +50,7 @@ class Reservation(db.Model):
     appointment_id = db.Column(db.Integer, db.ForeignKey("appointments.appointment_id"), nullable=False)
 
     user = db.relationship("User", back_populates="reservations")
-    appointment = db.relationship("Appointments", back_populates="reservations")
+    appointment = db.relationship("Appointment", back_populates="reservations")
 
     def __repr__(self):
         """ Display a reservation on the screen """
