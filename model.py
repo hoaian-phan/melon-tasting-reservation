@@ -21,24 +21,6 @@ class User (db.Model):
 
         return f"<User user_id={self.user_id} name={self.name}>"
 
-# Appointment class
-class Appointment(db.Model):
-    """ Appointment information """
-
-    __tablename__ = "appointments"
-
-    appointment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    date = db.Column(db.Date, nullable=False)
-    start = db.Column(db.Time, nullable=False)
-    end = db.Column(db.Time, nullable=False)
-
-    reservations = db.relationship("Reservation", back_populates="appointment")
-
-    def __repr__(self):
-        """ Display an appointment on the screen """
-
-        return f"<Appointment appointment_id={self.appointment_id} date={self.date} time=at {self.start}>"
-
 # Reservation class
 class Reservation(db.Model):
     """ Reservation information """
@@ -46,16 +28,18 @@ class Reservation(db.Model):
     __tablename__ = "reservations"
 
     reservation_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    date = db.Column(db.Date, nullable=False)
+    start = db.Column(db.Time, nullable=False)
+    end = db.Column(db.Time, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    appointment_id = db.Column(db.Integer, db.ForeignKey("appointments.appointment_id"), nullable=False)
-
+    
     user = db.relationship("User", back_populates="reservations")
-    appointment = db.relationship("Appointment", back_populates="reservations")
+    
 
     def __repr__(self):
         """ Display a reservation on the screen """
 
-        return f"<Reservation reservation_id={self.reservation_id} user_id={self.user_id} appointment_id={self.appointment_id}>"
+        return f"<Reservation reservation_id={self.reservation_id} user_id={self.user_id} date={self.date} start={self.start}>"
 
 
 # Connect to database
